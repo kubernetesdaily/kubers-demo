@@ -1,0 +1,11 @@
+apiVersion: example.com/v1
+kind: Meetup
+metadata:
+  name: kubernetes-intro-meetup
+  namespace: default
+organizer: "sangam"
+topic: "Introduction to Kube rs with sangam"
+attendees:
+  - "abhi"
+  - "lavakush"
+  - "sangam"
