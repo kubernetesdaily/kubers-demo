@@ -28,7 +28,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     tokio::pin!(watcher);
     while let Some(event) = watcher.try_next().await? {
         if let watcher::Event::Applied(pod) = event {
-            let pod_name = pod.metadata.name.unwrap_or_default();  // Corrected way to get name
+            let pod_name = pod.metadata.name.unwrap_or_default();  
             let message = format!("Pod update: {}", pod_name);
             send_slack_message(slack_webhook_url, &message).await;
         }
