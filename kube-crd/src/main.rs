@@ -16,8 +16,8 @@ use kube::CustomResource;
 use std::collections::BTreeMap;
 
 // Define the spec of our custom resource
-#[derive(CustomResource, Deserialize, Serialize, Clone, Debug, JsonSchema)]
-#[kube(group = "example.com", version = "v1", kind = "Meetup", namespaced)]
+#[derive(CustomResource, Deserialize, Serialize, Clone, Debug, JsonSchema)] // This line is a combination of derive macros to add functionality to the MeetupSpec struct. It makes MeetupSpec a Kubernetes custom resource, serializable, cloneable, and debuggable.
+#[kube(group = "example.com", version = "v1", kind = "Meetup", namespaced)] // This annotation specifies the API group, version, and kind of the custom resource, and that it is namespaced.
 pub struct MeetupSpec {
     organizer: String,
     topic: String,
@@ -26,14 +26,14 @@ pub struct MeetupSpec {
 
 // Main function to create the CRD in the cluster
 #[tokio::main]
-async fn main() -> Result<(), kube::Error> {
-    let client = Client::try_default().await?;
+async fn main() -> Result<(), kube::Error> { // An asynchronous main function that returns a result type, which on error contains kube::Error.
+    let client = Client::try_default().await?; // Attempts to create a default Kubernetes client, which connects to the cluster's API server.
 
-    let crds: Api<CustomResourceDefinition> = Api::all(client);
-    let pp = PostParams::default();
+    let crds: Api<CustomResourceDefinition> = Api::all(client); // : Creates an API interface for CustomResourceDefinition objects that can interact with all namespaces.
+    let pp = PostParams::default(); //  Initializes default post parameters
 
     // Define the CRD for our Meetup resource
-    let meetup_crd = CustomResourceDefinition {
+    let meetup_crd = CustomResourceDefinition { // Defines the CRD for the Meetup resource. It includes metadata (like the name), specifications for versions, names, scope, and the schema for validation.
         metadata: ObjectMeta {
             name: Some("meetups.example.com".to_string()),
             ..Default::default()
